@@ -1,0 +1,1 @@
+# Turbolinks for aspnet core

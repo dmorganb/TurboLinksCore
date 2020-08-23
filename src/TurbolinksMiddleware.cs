@@ -5,21 +5,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace TurbolinksCore
+namespace TurboLinksCore
 {
     public static class TurboLinksBuilderExtension
     {
         public static IApplicationBuilder UseTurboLinks(this IApplicationBuilder app)
-            => app.UseMiddleware<TurbolinksMiddleware>();
+            => app.UseMiddleware<TurboLinksMiddleware>();
 
-        private class TurbolinksMiddleware
+        private class TurboLinksMiddleware
         {
-            private const string turbolinksLocationKey = "Turbolinks-Location";
+            private const string turboLinksLocationKey = "Turbolinks-Location";
             private static readonly int[] _redirectCodes = new int[] { 301, 302 };
             private readonly RequestDelegate _next;
             private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
 
-            public TurbolinksMiddleware(
+            public TurboLinksMiddleware(
                 RequestDelegate next,
                 ITempDataDictionaryFactory tempDataDictionaryFactory)
             {
@@ -31,22 +31,22 @@ namespace TurbolinksCore
             public async Task Invoke(HttpContext context)
             {
                 context.Response.OnStarting(
-                    state => AddTurbolinksHeader((HttpContext)state), context);
+                    state => AddTurboLinksHeader((HttpContext)state), context);
                 await _next(context);
             }
 
-            private Task AddTurbolinksHeader(HttpContext context)
+            private Task AddTurboLinksHeader(HttpContext context)
             {
                 var tempData = _tempDataDictionaryFactory.GetTempData(context);
                 var response = context.Response;
 
                 if (IsRedirect(response))
                 {
-                    tempData[turbolinksLocationKey] = (string)response.Headers["Location"];
+                    tempData[turboLinksLocationKey] = (string)response.Headers["Location"];
                 }
-                else if (tempData.TryGetValue(turbolinksLocationKey, out var location))
+                else if (tempData.TryGetValue(turboLinksLocationKey, out var location))
                 {
-                    response.Headers.Add(turbolinksLocationKey, (string)location);
+                    response.Headers.Add(turboLinksLocationKey, (string)location);
                 }
 
                 tempData.Save();

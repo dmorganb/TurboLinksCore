@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Net;
 using System;
 
-namespace TurbolinksCore.Tests
+namespace TurboLinksCore.Tests
 {
-    public class TurbolinksMiddlewareTests
+    public class TurboLinksMiddlewareTests
     {
         /// <summary>
         /// Sets up a test server (Microsoft.AspNetCore.TestHost) with the 
-        /// Turbolinks middleware.
+        /// TurboLinks middleware.
         /// Does a request that returns a redirect with Location header = "/" 
         /// and a cookie to keep the temp data. The next request, following 
         /// the redirect and with the cookie set, returns a 200 with the 
@@ -50,8 +50,8 @@ namespace TurbolinksCore.Tests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             // ... and include the turbolinks header
-            var turbolinksHeader = response.Headers.GetValues("Turbolinks-Location").First();
-            Assert.Equal("/", turbolinksHeader);
+            var turboLinksHeader = response.Headers.GetValues("Turbolinks-Location").First();
+            Assert.Equal("/", turboLinksHeader);
 
             // ... also, temp data cookie should be expired.
             var expiredCookie = response.Headers.GetValues("Set-Cookie").First();
@@ -59,7 +59,7 @@ namespace TurbolinksCore.Tests
             Assert.Contains("expires=", expiredCookie);
         }
 
-        // Creates a Host with Turbolinks middleware setup
+        // Creates a Host with TurboLinks middleware setup
         private static async Task<IHost> TestHost(Action<IEndpointRouteBuilder> endpoints)
         {
             return await new HostBuilder()
